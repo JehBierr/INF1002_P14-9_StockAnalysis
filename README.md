@@ -1,4 +1,4 @@
-INF1002, P14_9
+# INF1002, P14_9
 Liew Hui Zhong 2502222
 Charissa Koh Yi En 2501810
 Ong Si Kai 2501225
