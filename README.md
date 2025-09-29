@@ -1,8 +1,8 @@
 # INF1002, P14_9
-Liew Hui Zhong 2502222
-Charissa Koh Yi En 2501810
-Ong Si Kai 2501225
-Javier Soh Jie En 2500119
+- Liew Hui Zhong 2502222
+- Charissa Koh Yi En 2501810
+- Ong Si Kai 2501225
+- Javier Soh Jie En 2500119
 
 # 📈 Stock Analysis Dashboard
 
