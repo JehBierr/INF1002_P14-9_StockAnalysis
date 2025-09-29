@@ -47,6 +47,11 @@ const navigationItems: NavigationItem[] = [
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+
+
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -96,7 +101,10 @@ function App() {
       <Router>
         <div className="min-h-screen bg-gray-50 flex h-screen">
           {/* Sidebar */}
-          <Sidebar navigationItems={navigationItems} />
+          <Sidebar navigationItems={navigationItems} 
+          //isOpen={isSidebarOpen}
+          //toggleSidebar={() => setSidebarOpen(prev => !prev)}
+          />
           
           {/* Main Content */}
           <div className="flex-1 flex flex-col overflow-hidden">

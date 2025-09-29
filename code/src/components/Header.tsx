@@ -20,7 +20,7 @@ export const useCurrency = () => {
 };
 
 const currencies = [
-  { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1.0 },
+  { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1.0 },   //reference currency
   { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', rate: 1.35 },
   { code: 'EUR', name: 'Euro', symbol: '€', rate: 0.85 },
   { code: 'GBP', name: 'British Pound', symbol: '£', rate: 0.73 },
@@ -33,11 +33,11 @@ const currencies = [
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>('USD');
 
-  const formatCurrency = (value: number) => {
+  const formatCurrency = (value: number) => {        //number = input, number(rate) = output
     const currency = currencies.find(c => c.code === selectedCurrency);
     const symbol = currency?.symbol || '$';
-    const convertedValue = value * (currency?.rate || 1.0);
-    return `${symbol}${convertedValue.toFixed(2)}`;
+    const convertedValue = value * (currency?.rate || 1.0);  
+    return `${symbol}${convertedValue.toFixed(2)}`; 
   };
 
   const getCurrencySymbol = () => {
@@ -46,7 +46,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <CurrencyContext.Provider value={{
+    <CurrencyContext.Provider value={{        //makes currency state available throughout app
       selectedCurrency,
       setSelectedCurrency,
       formatCurrency,
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
         <div className="flex items-center space-x-2">
           <select
             value={selectedCurrency}
-            onChange={(e) => setSelectedCurrency(e.target.value)}
+            onChange={(e) => setSelectedCurrency(e.target.value)} //updates currency state
             className="px-3 py-1 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             {currencies.map(currency => (

@@ -2,14 +2,23 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RefreshCw } from 'lucide-react';
 import { NavigationItem } from '../App';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+
 
 interface SidebarProps {
   navigationItems: NavigationItem[];
+  //isOpen: boolean;
+  //toggleSidebar: () => void;
 }
+
+
 
 const Sidebar: React.FC<SidebarProps> = ({ navigationItems }) => {
   const location = useLocation();
   const navigate = useNavigate();
+
+
 
   const handleRefresh = () => {
     window.location.reload();
@@ -25,15 +34,15 @@ const Sidebar: React.FC<SidebarProps> = ({ navigationItems }) => {
         <nav className="space-y-2">
           {navigationItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname === item.path; //style selected path
             
             return (
               <button
-                key={item.id}
+                key={item.id}                             //changes URL to match route
                 onClick={() => navigate(item.path)}
                 className={`sidebar-item w-full text-left ${
                   isActive ? 'active' : ''
-                }`}
+                }`}           
               >
                 <Icon className="w-5 h-5 mr-3" />
                 {item.label}
