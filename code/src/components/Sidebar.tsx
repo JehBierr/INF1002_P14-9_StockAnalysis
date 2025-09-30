@@ -17,9 +17,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ navigationItems }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
-
-
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -34,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({ navigationItems }) => {
         <nav className="space-y-2">
           {navigationItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path; //style selected path
+            const isActive = location.pathname === item.path; //style/highlight selected path
             
             return (
               <button
@@ -52,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ navigationItems }) => {
         </nav>
       </div>
       
-      {/* Refresh section at bottom */}
+      {/*refresh"*/}
       <div className="p-6 border-t border-gray-200 bg-gray-50">
         <div className="text-xs text-gray-500 mb-2">
           Last updated: {new Date().toLocaleString()}

@@ -133,6 +133,7 @@ class StockDataProcessor:
                 if stock_name == 'GOOG':
                     stock_name = 'Google'
                 stocks.append(stock_name)
+                
         return stocks
     
     def calculate_max_profit(self, df):
@@ -332,7 +333,7 @@ def get_stock_metrics(stock_name):
     metrics = {
         'totalDays': int(len(df)),
         'startDate': str(df.iloc[0]['Date']),
-        'endDate': str(df.iloc[-1]['Date']),
+        'endDate': str(df.iloc[-1]['Date']),    
         'maxPrice': float(df['Close'].max()),
         'minPrice': float(df['Close'].min()),
         'avgPrice': float(df['Close'].mean()),
@@ -404,7 +405,11 @@ def health_check():
     """Health check endpoint"""
     return jsonify({'status': 'healthy', 'message': 'Python backend is running'})
 
+StocksDisplay = ", " .join(map(str, processor.get_available_stocks()))
+StockCount = len(processor.get_available_stocks())
+
 if __name__ == '__main__':
-    print("Starting Python Flask backend...")
-    print("Available stocks:", processor.get_available_stocks())
+    print("\nStarting Python Flask backend...\n")
+    print(f"{StockCount} stocks available:\n{StocksDisplay.title()}.\n")
+
     app.run(debug=True, port=5001)

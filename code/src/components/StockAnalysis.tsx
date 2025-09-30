@@ -12,8 +12,23 @@ import {
   ComposedChart,
   ReferenceLine
 } from 'recharts';
-import { TrendingUp, TrendingDown, DollarSign, BarChart3, Activity, ChevronDown, ChevronUp } from 'lucide-react';
-import { stockAPIService, StockData, StockMetrics, ChartData, RunAnalysis, Transaction } from '../services/stockAPIService';
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  DollarSign, 
+  BarChart3, 
+  Activity, 
+  ChevronDown, 
+  ChevronUp 
+} from 'lucide-react';
+import { 
+  stockAPIService, 
+  StockData, 
+  StockMetrics, 
+  ChartData, 
+  RunAnalysis, 
+  Transaction 
+} from '../services/stockAPIService';
 import { useCurrency } from './Header';
 
 const IndividualStockAnalysis: React.FC = () => {
@@ -26,7 +41,7 @@ const IndividualStockAnalysis: React.FC = () => {
   const [availableStocks, setAvailableStocks] = useState<string[]>([]);
   const [runAnalysis, setRunAnalysis] = useState<RunAnalysis | null>(null);
   const [maxProfit, setMaxProfit] = useState<{maxProfit: number, transactions: Transaction[]} | null>(null);
-  const [smaWindow, setSmaWindow] = useState<number>(5);
+  const [smaWindow, setSmaWindow] = useState<number>(10);
   const [expandedValidation, setExpandedValidation] = useState<{[key: string]: boolean}>({});
 
   useEffect(() => {
@@ -69,9 +84,9 @@ const IndividualStockAnalysis: React.FC = () => {
     updateDates();
   }, [selectedStock]);
 
-  useEffect(() => {
-    const loadData = async () => {
-      if (selectedStock && startDate && endDate) {
+  useEffect(() => { // Load metrics and chart data when stock or date range changes
+    const loadData = async () => {  
+      if (selectedStock && startDate && endDate) { //only fetch data when all 3 are set
         try {
           // Load metrics and chart data in parallel
           const [metricsData, chartData] = await Promise.all([
@@ -98,7 +113,8 @@ const IndividualStockAnalysis: React.FC = () => {
   const formatPercent = (value: number) => `${value.toFixed(2)}%`;
   const formatNumber = (value: number) => value.toLocaleString();
 
-  const toggleValidationExpansion = (testCase: string) => {
+  //show/hide manual calculation details, makes UI cleaner.
+  const toggleValidationExpansion = (testCase: string) => {  
     setExpandedValidation(prev => ({
       ...prev,
       [testCase]: !prev[testCase]
@@ -175,7 +191,7 @@ const IndividualStockAnalysis: React.FC = () => {
       // Find local minimum (buy point)
       while (i < first10Prices.length - 1 && first10Prices[i + 1] <= first10Prices[i]) {
         i++;
-      }
+      } //skip till next price > current price
       
       if (i === first10Prices.length - 1) break;
       
@@ -185,7 +201,7 @@ const IndividualStockAnalysis: React.FC = () => {
       // Find local maximum (sell point)  
       while (i < first10Prices.length - 1 && first10Prices[i + 1] >= first10Prices[i]) {
         i++;
-      }
+      } //skip till next price < buy price
       
       const sellIndex = i;
       const sellPrice = first10Prices[sellIndex];
