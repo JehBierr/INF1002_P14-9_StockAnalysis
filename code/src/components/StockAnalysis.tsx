@@ -42,7 +42,6 @@ const IndividualStockAnalysis: React.FC = () => {
   const [availableStocks, setAvailableStocks] = useState<string[]>([]);
   const [runAnalysis, setRunAnalysis] = useState<RunAnalysis | null>(null);
   const [maxProfit, setMaxProfit] = useState<{maxProfit: number, transactions: Transaction[]} | null>(null);
-  const [showAllmaxprofit, setShowAllmaxprofit] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1)
   const itemsdisplayed = 2;
   const startIndex = (currentPage - 1) * itemsdisplayed;
