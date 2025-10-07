@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { BarChart3, TrendingUp, Activity, DollarSign } from 'lucide-react';
+import { BarChart4, TrendingUp, Activity, DollarSign } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import Header, { CurrencyProvider } from './components/Header';
 import StockAnalysis from './components/StockAnalysis';
@@ -33,7 +33,7 @@ const navigationItems: NavigationItem[] = [
   {
     id: 'stock-comparison',
     label: 'Stock Comparison',
-    icon: BarChart3,
+    icon: BarChart4,
     path: '/stock-comparison'
   },
   {

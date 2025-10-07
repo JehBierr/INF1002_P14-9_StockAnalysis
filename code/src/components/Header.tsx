@@ -61,13 +61,13 @@ const Header: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+    <header className="bg-white shadow-sm border-b border-gray-400 px-6 py-2">
       <div className="flex justify-end items-center">
         <div className="flex items-center space-x-2">
           <select
             value={selectedCurrency}
             onChange={(e) => setSelectedCurrency(e.target.value)} //updates currency state
-            className="px-3 py-1 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-3 py-1 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           >
             {currencies.map(currency => (
               <option key={currency.code} value={currency.code}>

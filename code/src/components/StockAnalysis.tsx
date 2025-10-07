@@ -30,6 +30,7 @@ import {
   Transaction 
 } from '../services/stockAPIService';
 import { useCurrency } from './Header';
+import MaxProfitAnalysis from './MaxProfitAnalysis';
 
 const IndividualStockAnalysis: React.FC = () => {
   const { formatCurrency } = useCurrency();
@@ -41,6 +42,11 @@ const IndividualStockAnalysis: React.FC = () => {
   const [availableStocks, setAvailableStocks] = useState<string[]>([]);
   const [runAnalysis, setRunAnalysis] = useState<RunAnalysis | null>(null);
   const [maxProfit, setMaxProfit] = useState<{maxProfit: number, transactions: Transaction[]} | null>(null);
+  const [showAllmaxprofit, setShowAllmaxprofit] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsdisplayed = 2;
+  const startIndex = (currentPage - 1) * itemsdisplayed;
+  const endIndex = startIndex + itemsdisplayed
   const [smaWindow, setSmaWindow] = useState<number>(10);
   const [expandedValidation, setExpandedValidation] = useState<{[key: string]: boolean}>({});
 
@@ -376,10 +382,10 @@ const IndividualStockAnalysis: React.FC = () => {
       )}
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
         {/* Price Chart with Moving Averages */}
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          <h3 className="text-lg text-center font-semibold text-gray-800 mb-4">
             {selectedStock} Stock Price with SMA
           </h3>
           <ResponsiveContainer width="100%" height={400}>
@@ -405,7 +411,7 @@ const IndividualStockAnalysis: React.FC = () => {
               <Line 
                 type="monotone" 
                 dataKey={smaWindow === 5 ? "sma5" : smaWindow === 10 ? "sma10" : smaWindow === 20 ? "sma20" : "sma50"} 
-                stroke="#10b981" 
+                stroke="#10b98cff" 
                 strokeWidth={2}
                 name={`SMA ${smaWindow}`}
               />
@@ -415,7 +421,7 @@ const IndividualStockAnalysis: React.FC = () => {
 
         {/* Daily Returns Distribution */}
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          <h3 className="text-lg text-center font-semibold text-gray-900 mb-4">
             Daily Returns Distribution
           </h3>
           <ResponsiveContainer width="100%" height={400}>
@@ -457,8 +463,8 @@ const IndividualStockAnalysis: React.FC = () => {
                   <div className="text-lg font-bold text-blue-800">{runAnalysis.longestUpwardRun} days</div>
                 </div>
                 <div className="bg-purple-50 p-3 rounded-lg">
-                  <div className="text-sm text-purple-600 font-medium">Longest Downward Streak</div>
-                  <div className="text-lg font-bold text-purple-800">{runAnalysis.longestDownwardRun} days</div>
+                  <div className="text-sm text-gray-600 font-medium">Longest Downward Streak</div>
+                  <div className="text-lg font-bold text-gray-600">{runAnalysis.longestDownwardRun} days</div>
                 </div>
               </div>
             </div>
@@ -466,24 +472,25 @@ const IndividualStockAnalysis: React.FC = () => {
         )}
 
         {/* Max Profit Analysis */}
+        
         {maxProfit && (
           <div className="card">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            <h3 className="bg-white-100 p-2 red rounded-lg text-lg font-semibold text-black-800 mb-2">
               Max Profit Analysis (Multiple Transactions)
             </h3>
-            <div className="space-y-3">
-              <div className="bg-green-50 p-4 rounded-lg">
-                <div className="text-sm text-green-600 font-medium">Maximum Profit</div>
-                <div className="text-2xl font-bold text-green-800">
+            <div className="space-y-4">
+              <div className="bg-green-100 p-2 rounded-lg">
+                <div className="text-sm text-black-800 font-medium">Maximum Profit</div>
+                <div className="text-2xl font-bold text-green-600">
                   {formatCurrency(maxProfit.maxProfit)}
                 </div>
-                <div className="text-xs text-green-600">
+                <div className="text-xs text-black-500">
                   From {maxProfit.transactions.length} transactions
                 </div>
               </div>
               <div className="max-h-40 overflow-y-auto">
-                <div className="text-sm font-medium text-gray-700 mb-2">Transaction History:</div>
-                {maxProfit.transactions.slice(0, 2).map((transaction, index) => (
+                <div className="rounded-lg text-s font-medium text-gray-700 mb-2">Transaction History:</div>
+                {maxProfit.transactions.slice(startIndex,endIndex).map((transaction, index) => (
                   <div key={index} className="text-xs bg-gray-50 p-2 rounded mb-1">
                     <div className="flex justify-between">
                       <span>Buy: {new Date(transaction.buyDate).toLocaleDateString()}</span>
@@ -500,7 +507,57 @@ const IndividualStockAnalysis: React.FC = () => {
                 ))}
                 {maxProfit.transactions.length > 2 && (
                   <div className="text-xs text-gray-500 text-center">
-                    ... and {maxProfit.transactions.length - 2} more transactions
+                  <div className="flex flex-col items-center">
+                    <span className="text-xs text-gray-700 dark:text-gray-400">
+                      </span>
+
+
+              <div className="inline-flex items-center mt-2 xs:mt-0 space-x-2">
+                <span className="text-sm text-gray-500">
+                  Showing {Math.min(endIndex, maxProfit.transactions.length)} of {maxProfit.transactions.length} Transactions
+                </span>
+
+              <div className="max-h-40 overflow-y-auto">
+                {maxProfit.transactions.slice(startIndex,endIndex).map((transaction, index) => (
+                  <div key={index} className="p-2 border-b last:border-b-0">
+                    
+                </div>
+                ))} 
+              </div>
+
+           
+                <button 
+                  onClick={() => setCurrentPage (prev => prev > 1 ? prev - 1 : prev)}
+                  disabled={currentPage === 0}
+                  className="flex items-center justify-center px-7 h-8 text-sm font-medium text-white bg-black hover:bg-black font-medium rounded-e rounded-s"
+                  
+                  
+                >
+                  Prev
+
+                </button>
+
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(Math.ceil(maxProfit.transactions.length / 2)? prev + 1 : prev))}
+                  disabled={currentPage === Math.ceil(maxProfit.transactions.length / 2)}
+                  className="flex items-center justify-center px-7 h-8 text-sm font-medium text-white bg-black hover:bg-black focus:outline-none font-medium rounded rounded-s"
+                  
+                 
+
+                >
+                  Next
+
+                </button>
+
+                    
+              </div>
+                    
+                  
+                    
+                    
+                  
+                  </div>
+                    
                   </div>
                 )}
               </div>
