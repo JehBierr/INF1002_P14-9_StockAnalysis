@@ -487,7 +487,7 @@ const IndividualStockAnalysis: React.FC = () => {
                   From {maxProfit.transactions.length} transactions
                 </div>
               </div>
-              <div className="max-h-40 overflow-y-auto">
+              <div className="overflow-y-auto">
                 <div className="rounded-lg text-s font-medium text-gray-700 mb-2">Transaction History:</div>
                 {maxProfit.transactions.slice(startIndex,endIndex).map((transaction, index) => (
                   <div key={index} className="text-xs bg-gray-50 p-2 rounded mb-1">
@@ -528,7 +528,7 @@ const IndividualStockAnalysis: React.FC = () => {
                 <button 
                   onClick={() => setCurrentPage (prev => prev > 1 ? prev - 1 : prev)}
                   disabled={currentPage === 0}
-                  className="flex items-center justify-center px-7 h-8 text-sm font-medium text-white bg-black hover:bg-black font-medium rounded-e rounded-s"
+                  className="flex items-center justify-center px-7 h-8 text-sm text-white font-medium bg-gray-600 hover:bg-gray-400 focus:outline-none rounded-e rounded-s"
                   
                   
                 >
@@ -539,7 +539,7 @@ const IndividualStockAnalysis: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(Math.ceil(maxProfit.transactions.length / 2)? prev + 1 : prev))}
                   disabled={currentPage === Math.ceil(maxProfit.transactions.length / 2)}
-                  className="flex items-center justify-center px-7 h-8 text-sm font-medium text-white bg-black hover:bg-black focus:outline-none font-medium rounded rounded-s"
+                  className="flex items-center justify-right px-7 h-8 text-sm font-medium text-white bg-gray-600 hover:bg-gray-400 focus:outline-none font-medium rounded rounded-s"
                   
                  
 
