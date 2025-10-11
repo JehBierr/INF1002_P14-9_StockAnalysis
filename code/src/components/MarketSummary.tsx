@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer
-} from 'recharts';
-import { Activity, TrendingUp, DollarSign, BarChart3, AlertCircle } from 'lucide-react';
+import { Activity, TrendingUp, DollarSign, BarChart3, AlertCircle } 
+  from 'lucide-react';
 import { stockAPIService, StockMetrics } from '../services/stockAPIService';
 
 const MarketSummary: React.FC = () => {
@@ -68,6 +60,10 @@ const MarketSummary: React.FC = () => {
         const metrics = data[stock];
         if (!metrics) return null;
         
+        const dataRSI = metrics.rsi || 50; // Default to 50 if RSI not available
+        const rsiString = dataRSI.toString();
+        const rsieditted = rsiString.replace("%", "");
+        const newRSI = Number(rsieditted);
         return {
           stock,
           currentPrice: metrics.maxPrice, // Using maxPrice as current price
@@ -76,7 +72,7 @@ const MarketSummary: React.FC = () => {
           volatility: metrics.volatility || 0,
           sharpeRatio: metrics.sharpeRatio || 0,
           volume: metrics.totalVolume,
-          rsi: metrics.rsi || 50
+          rsi: Number(newRSI.toFixed(1))
         };
       }).filter(Boolean);
       
@@ -209,6 +205,9 @@ const MarketSummary: React.FC = () => {
                   Volatility
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  RSI
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Sharpe Ratio
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -242,9 +241,12 @@ const MarketSummary: React.FC = () => {
                     {formatPercent(stock.volatility)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {stock.sharpeRatio.toFixed(2)}
+                    {stock.rsi}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {stock.sharpeRatio.toFixed(2)}
+                  </td>
+                  <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900">
                     {formatNumber(stock.volume)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

@@ -214,6 +214,7 @@ class StockDataProcessor:
         # Fill initial values with 50 (neutral RSI)
         rsi.iloc[:period] = 50.0
         
+        rsi = rsi.replace("%", "")
         return rsi
     
     def calculate_correlation_matrix(self, stocks_list):
