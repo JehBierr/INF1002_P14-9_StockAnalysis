@@ -13,9 +13,9 @@ import { BarChart3, TrendingUp, DollarSign } from 'lucide-react';
 import { stockAPIService, StockMetrics } from '../services/stockAPIService';
 
 const StockComparison: React.FC = () => {
+  const [availableStocks, setAvailableStocks] = useState<string[]>([]);
   const [selectedStocks, setSelectedStocks] = useState<string[]>(['APPLE', 'Google']);
   const [chartType, setChartType] = useState<'price' | 'normalized' | 'returns'>('price');
-  const [availableStocks, setAvailableStocks] = useState<string[]>([]);
   const [comparisonData, setComparisonData] = useState<any[]>([]);
   const [performanceData, setPerformanceData] = useState<{[key: string]: StockMetrics}>({});
 
